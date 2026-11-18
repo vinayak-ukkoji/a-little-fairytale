@@ -339,42 +339,24 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     setTimeout(function(){fired=false},6500);
   });
 
-  /* ---- optional music (WebAudio music-box lullaby; never autoplays) ---- */
-  var ctx=null, playing=false, timer=null, step=0, mbtn=$('#music');
-  var melody=[523.25,659.25,783.99,659.25,880,783.99,659.25,587.33,
-              523.25,659.25,783.99,1046.5,880,783.99,659.25,523.25,
-              587.33,698.46,880,698.46,783.99,659.25,587.33,523.25,
-              392,523.25,659.25,587.33,523.25,null,null,null];
-  function tone(freq,vol,dur){
-    if(!ctx||!freq) return;
-    var o=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain(), t=ctx.currentTime;
-    o.type='sine'; o.frequency.value=freq; o2.type='triangle'; o2.frequency.value=freq*2;
-    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01);
-    g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-    o.connect(g); o2.connect(g); g.connect(ctx.destination);
-    o.start(t); o2.start(t); o.stop(t+dur); o2.stop(t+dur);
-  }
-  function chime(f){ if(playing) tone(f,.08,1.4); }
-  function tick(){
-    tone(melody[step%melody.length],.07,1.6);
-    if(step%8===0) tone(melody[step%melody.length]/2,.05,2.4);
-    step++;
-  }
-  mbtn.addEventListener('click',function(){
-    try{
-      if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
-      if(!playing){
-        ctx.resume(); playing=true; tick(); timer=setInterval(tick,480);
-      }else{
-        playing=false; clearInterval(timer);
-      }
-    }catch(e){ return; }
+  /* ---- optional music (sound.mp3; starts only when the visitor taps the button) ---- */
+  var mbtn=$('#music'), audio=new Audio('sound.mp3'), playing=false;
+  audio.loop=true; audio.preload='none'; audio.volume=.6;
+  function chime(){}
+  function setUI(){
     mbtn.textContent=playing?'🎵':'🔇';
     mbtn.setAttribute('aria-pressed',playing);
     mbtn.setAttribute('aria-label',playing?'Mute music':'Play soft music');
+  }
+  mbtn.addEventListener('click',function(){
+    if(playing){ audio.pause(); playing=false; setUI(); return; }
+    var p=audio.play();
+    playing=true; setUI();
+    if(p&&p.catch) p.catch(function(){ playing=false; setUI(); });
   });
   document.addEventListener('visibilitychange',function(){
-    if(document.hidden&&playing){ clearInterval(timer); } else if(playing){ timer=setInterval(tick,480); }
+    if(document.hidden&&playing) audio.pause();
+    else if(playing) audio.play().catch(function(){});
   });
 })();
 </script>
