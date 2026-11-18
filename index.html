@@ -136,15 +136,28 @@ body.opened #dots{opacity:1}
 #tease.go .tl{animation:fadeUp 1.2s var(--ld) both}
 #tease .drum{color:var(--rose);font-weight:600}
 #final{margin-top:34px;max-width:560px;opacity:0;transform:scale(.92);transition:opacity 1.6s,transform 1.6s}
-#final.show{opacity:1;transform:none}
+#final.girl-on,#final.show{opacity:1;transform:none}
+#final .word,#final .late{display:none}
+#final.show .word{display:block}
+#final.show .late{display:block}
 #final p{font-size:1.2rem;margin-top:14px}
 #final .hpd{font-family:var(--script);color:var(--rose);font-size:clamp(2rem,8vw,3rem);line-height:1.2}
 .girl{width:min(210px,55vw);filter:drop-shadow(0 8px 16px rgba(232,122,160,.35))}
-#final.show .girl{animation:hop 1.6s ease-in-out infinite}
+#final.girl-on .girl{animation:hop 1.6s ease-in-out infinite}
+#final.girl-on .girl.wiggle{animation:wiggle .5s ease}
+@keyframes wiggle{20%{transform:rotate(-8deg) scale(1.06)}50%{transform:rotate(8deg) scale(1.08)}80%{transform:rotate(-4deg)}}
+#final.girl-on .girl.charge{animation:charge .25s linear infinite;filter:drop-shadow(0 0 26px #f3dca0) drop-shadow(0 0 50px #f4b6c9)}
+@keyframes charge{25%{transform:translateX(-4px) scale(1.04)}75%{transform:translateX(4px) scale(1.04)}}
+.gcrown{opacity:0;transform:translateY(-120px);transform-box:fill-box}
+.gcrown.land{animation:drop 1.1s cubic-bezier(.3,1.5,.5,1) forwards;filter:drop-shadow(0 0 10px #f3dca0)}
+@keyframes drop{0%{opacity:0;transform:translateY(-120px) rotate(-20deg)}60%{opacity:1}100%{opacity:1;transform:none}}
+#tapHint{opacity:0;font-weight:600;color:var(--rose);transition:opacity 1s}
+#final.girl-on #tapHint{opacity:1}
+#final.show #tapHint{display:none}
 @keyframes hop{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
 .word{font-size:clamp(4rem,19vw,7rem);line-height:1.1;min-height:1.1em;margin-top:4px}
 .word span{display:inline-block;opacity:0;transform:translateY(30px) scale(.4)}
-#final.show .word span{animation:letter .8s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(1.8s + var(--i)*.14s)}
+#final.show .word span{animation:letter .8s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(.5s + var(--i)*.14s)}
 @keyframes letter{to{opacity:1;transform:none}}
 #final .late{opacity:0}
 #final.show .late{animation:fadeUp 1.4s var(--ld) both}
@@ -266,7 +279,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="tl drum" style="--ld:7.2s">Drumroll, please 🥁✨</p>
     </div>
     <div id="final" aria-live="polite">
-      <svg class="girl" viewBox="0 0 200 270" role="img" aria-label="A happy little girl in a pink gown and golden crown">
+      <svg class="girl" viewBox="0 0 200 270" role="img" aria-label="A happy little girl in a pink gown. Tap her to hear her giggle">
         <ellipse cx="100" cy="125" rx="50" ry="58" fill="#6b4030"/>
         <path d="M72 132Q38 112 34 80M128 132Q162 112 166 80" stroke="#ffe0cc" stroke-width="10" stroke-linecap="round" fill="none"/>
         <circle cx="34" cy="78" r="7" fill="#ffe0cc"/><circle cx="166" cy="78" r="7" fill="#ffe0cc"/>
@@ -278,13 +291,14 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
         <path d="M85 77q5-7 10 0M105 77q5-7 10 0" stroke="#5a4560" stroke-width="2.5" stroke-linecap="round" fill="none"/>
         <circle cx="80" cy="89" r="5.5" fill="#f6a6b8" opacity=".7"/><circle cx="120" cy="89" r="5.5" fill="#f6a6b8" opacity=".7"/>
         <path d="M90 90Q100 102 110 90Z" fill="#e0607e"/>
-        <use href="#crown" x="70" y="18" width="60" height="50"/>
+        <g class="gcrown" id="gcrown"><use href="#crown" x="70" y="18" width="60" height="50"/></g>
         <text x="14" y="40" font-size="20" fill="#d4a94f">✦</text><text x="170" y="50" font-size="16" fill="#e87aa0">✦</text>
         <text x="150" y="30" font-size="14" fill="#b9a4e6">✧</text>
       </svg>
+      <p id="tapHint" aria-live="polite">Tap her to make her giggle 🥰</p>
       <h2 class="word script gold-text" id="word" aria-label="Princess"></h2>
-      <p class="late hpd script" style="--ld:4.2s">Happy Princess Day, Rutuja! ❤️</p>
-      <p class="late" style="--ld:5.8s"><strong>Keep smiling, Princess.</strong><br>The world still has a million beautiful things waiting for you. ✨</p>
+      <p class="late hpd script" style="--ld:2.8s">Happy Princess Day, Rutuja! ❤️</p>
+      <p class="late" style="--ld:4.4s"><strong>Keep smiling, Princess.</strong><br>The world still has a million beautiful things waiting for you. ✨</p>
     </div>
     <footer>Made with care, just for you 🌷</footer>
   </section>
@@ -396,10 +410,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       if(caught===15) say('15! You really are a star catcher 💖');
       if(caught===30) say('Okay okay, you caught them all 😄🌸');
     }
-    if(e.target.closest('.girl')){
-      var g=e.target.closest('.girl').getBoundingClientRect();
-      float(g.left+g.width/2,g.top+10,['hehe 💖','yay! ✨','🥰','giggles 🌸'][Math.floor(Math.random()*4)]);
-    }
+    if(e.target.closest('.girl')) tickle(e.target.closest('.girl'));
     if(!e.target.closest('button')&&!hit) sparkleAt(e.clientX,e.clientY,6);
   });
   var lastTrail=0;
@@ -414,18 +425,64 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 
   /* ---- final confetti ---- */
   var lastBtn=$('#last'), fired=false;
-  var teasing=false;
+  var teasing=false, stage=0, taps=0, NEED=5;
   lastBtn.addEventListener('click',function(){
-    if(teasing||$('#final').classList.contains('show')){ if(!teasing) reveal(); return; }
+    if(teasing) return;
     teasing=true;
     lastBtn.style.display='none';
     var t=$('#tease'); t.hidden=false; t.classList.add('go');
     sparkleAt(innerWidth/2,innerHeight/2,10);
     setTimeout(function(){
       t.classList.add('out');
-      setTimeout(function(){ t.hidden=true; teasing=false; lastBtn.style.display=''; lastBtn.textContent='Again? 💖'; reveal(); },900);
+      setTimeout(function(){ t.hidden=true; showGirl(); },900);
     },9800);
   });
+
+  /* ---- giggle + magic sounds (synthesised, no files) ---- */
+  var actx=null;
+  function ac(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} return actx; }
+  function blip(f0,f1,t0,dur,vol,type){
+    var c=actx, o=c.createOscillator(), g=c.createGain(), t=c.currentTime+t0;
+    o.type=type||'sine'; o.frequency.setValueAtTime(f0,t); o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.015); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur+.02);
+  }
+  function giggle(){
+    if(!ac()) return;
+    var base=rand(620,760), n=4+Math.floor(Math.random()*2);
+    for(var i=0;i<n;i++){ blip(base+i*40,base*1.45+i*30,i*.11,.09,.09,'triangle'); }
+  }
+  function magic(){
+    if(!ac()) return;
+    [523.25,659.25,783.99,1046.5,1318.5,1568].forEach(function(f,i){ blip(f,f*1.01,i*.12,.9,.07,'sine'); });
+  }
+  function tickle(girl){
+    if(stage<1) return;
+    giggle();
+    if(stage!==1) return;
+    girl.classList.remove('wiggle'); void girl.getBoundingClientRect().width; girl.classList.add('wiggle');
+    var g=girl.getBoundingClientRect();
+    float(g.left+g.width/2,g.top+10,['hehe 💖','yay! ✨','🥰','giggles 🌸','hihi 😄'][Math.floor(Math.random()*5)]);
+    taps++;
+    var hint=$('#tapHint');
+    if(taps<NEED){ hint.textContent=['Again! 😄','Tickle her more 🌸','She loves it 💖','Almost... ✨'][Math.min(taps-1,3)]; }
+    else if(stage===1){ stage=2; hint.textContent='Wait... something is happening ✨'; magicMoment(girl); }
+  }
+  function showGirl(){
+    stage=1;
+    $('#final').classList.add('girl-on');
+    setTimeout(function(){ $('#final').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); },300);
+  }
+  function magicMoment(girl){
+    girl.classList.remove('wiggle'); girl.classList.add('charge');
+    sparkleAt(innerWidth/2,innerHeight/2,16);
+    setTimeout(function(){
+      girl.classList.remove('charge');
+      $('#gcrown').classList.add('land'); magic();
+      var r=girl.getBoundingClientRect(); sparkleAt(r.left+r.width/2,r.top+r.height*.2,26);
+    },1700);
+    setTimeout(function(){ reveal(); },3300);
+  }
   function reveal(){
     var word=$('#word');
     if(!word.firstChild){
