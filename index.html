@@ -97,7 +97,7 @@ body.opened #dots{opacity:1}
   border:1.5px solid var(--gold-l);box-shadow:0 4px 16px rgba(212,169,79,.3);animation:fadeUp 1.4s 1s both;transition:transform .2s}
 .soft:hover{transform:scale(1.04)}.soft.on{background:var(--gold-l)}
 .cue{margin-top:30px;font-size:.9rem;color:var(--ink-s)}
-.cue span{display:inline-block;animation:nudge 1.8s ease-in-out infinite}
+.soft.next{margin:0;animation:nudge 1.8s ease-in-out infinite}
 @keyframes nudge{50%{transform:translateY(7px)}}
 .btn{position:relative;overflow:hidden;padding:16px 34px;border-radius:999px;font-weight:600;font-size:1.05rem;color:#fff;
   background:linear-gradient(135deg,var(--rose),#f09bb8 50%,var(--gold));
@@ -142,7 +142,7 @@ body.opened #dots{opacity:1}
 @keyframes hop{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
 .word{font-size:clamp(4rem,19vw,7rem);line-height:1.1;min-height:1.1em;margin-top:4px}
 .word span{display:inline-block;opacity:0;transform:translateY(30px) scale(.4)}
-#final.show .word span{animation:letter .8s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(.7s + var(--i)*.14s)}
+#final.show .word span{animation:letter .8s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(1.8s + var(--i)*.14s)}
 @keyframes letter{to{opacity:1;transform:none}}
 #final .late{opacity:0}
 #final.show .late{animation:fadeUp 1.4s var(--ld) both}
@@ -214,7 +214,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     <p class="reveal" style="--d:1.4s">Some become little pieces of happiness.</p>
     <p class="reveal" style="--d:2.6s">And sometimes, a simple word can bring the biggest smile.</p>
     <span class="princess gold-text reveal" style="--d:4s">smile</span>
-    <div class="cue reveal" style="--d:6s" aria-hidden="true"><span>scroll down ↓</span></div>
+    <div class="cue reveal" style="--d:6s"><button class="soft next" type="button" data-next="#s3">Next ✨ ↓</button></div>
   </section>
 
   <!-- Screen 3 -->
@@ -227,7 +227,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="reveal em" style="--d:2.2s">You deserve happiness that stays, smiles that come naturally, people who genuinely care, and moments that make your heart feel light.</p>
       <p class="reveal" style="--d:3s">Never let the difficult chapters make you forget how beautiful the story ahead can be. 🌸</p>
     </div>
-    <div class="cue reveal" style="--d:4.5s" aria-hidden="true"><span>keep scrolling ↓</span></div>
+    <div class="cue reveal" style="--d:4.5s"><button class="soft next" type="button" data-next="#s4">Next ✨ ↓</button></div>
   </section>
 
   <!-- Screen 4 -->
@@ -235,7 +235,6 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     <button class="crown big reveal" id="crownBtn" type="button" aria-label="Tap the flower for sparkles">
       <svg viewBox="0 0 120 100" width="100%" aria-hidden="true"><use href="#flower"/></svg>
     </button>
-    <p class="hint reveal" style="--d:.3s">(tap the flower ✨)</p>
     <div class="card">
       <p class="line reveal" style="--d:.6s">Just a little reminder from someone who wishes to see you smile...</p>
       <p class="line reveal" style="--d:1.4s"><strong>You are special.</strong></p>
@@ -243,7 +242,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="line reveal" style="--d:2.8s"><strong>You deserve all the happiness in this world.</strong></p>
       <p class="big script reveal" style="--d:3.8s">You are loved, Rutuja! ❤️</p>
     </div>
-    <div class="cue reveal" style="--d:5.5s" aria-hidden="true"><span>one more step ↓</span></div>
+    <div class="cue reveal" style="--d:5.5s"><button class="soft next" type="button" data-next="#s5">Next ✨ ↓</button></div>
   </section>
 
   <!-- Screen 5 -->
@@ -273,8 +272,8 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
         <text x="150" y="30" font-size="14" fill="#b9a4e6">✧</text>
       </svg>
       <h2 class="word script gold-text" id="word" aria-label="Princess"></h2>
-      <p class="late hpd script" style="--ld:2.2s">Happy Princess Day, Rutuja! ❤️</p>
-      <p class="late" style="--ld:3.2s"><strong>Keep smiling, Princess.</strong><br>The world still has a million beautiful things waiting for you. ✨</p>
+      <p class="late hpd script" style="--ld:4.2s">Happy Princess Day, Rutuja! ❤️</p>
+      <p class="late" style="--ld:5.8s"><strong>Keep smiling, Princess.</strong><br>The world still has a million beautiful things waiting for you. ✨</p>
     </div>
     <footer>Made with care, just for you 🌷</footer>
   </section>
@@ -355,6 +354,10 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     var r=this.getBoundingClientRect();
     sparkleAt(r.left+r.width/2,r.top+r.height/2,22);
     chime(880);
+  });
+
+  document.querySelectorAll('[data-next]').forEach(function(b){
+    b.addEventListener('click',function(){ $(b.dataset.next).scrollIntoView({behavior:reduce?'auto':'smooth'}); });
   });
 
   /* ---- tiny sparkles wherever she taps ---- */
