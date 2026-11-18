@@ -124,8 +124,17 @@ body.opened #dots{opacity:1}
 #last{animation:pulse 2.8s ease-in-out infinite}
 #final{margin-top:34px;max-width:560px;opacity:0;transform:scale(.92);transition:opacity 1.6s,transform 1.6s}
 #final.show{opacity:1;transform:none}
-#final .script{font-size:clamp(2.6rem,10vw,4rem)}
-#final p{font-size:1.2rem;margin-top:12px}
+#final p{font-size:1.2rem;margin-top:14px}
+#final .hpd{font-family:var(--script);color:var(--rose);font-size:clamp(2rem,8vw,3rem);line-height:1.2}
+.girl{width:min(210px,55vw);filter:drop-shadow(0 8px 16px rgba(232,122,160,.35))}
+#final.show .girl{animation:hop 1.6s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+.word{font-size:clamp(4rem,19vw,7rem);line-height:1.1;min-height:1.1em;margin-top:4px}
+.word span{display:inline-block;opacity:0;transform:translateY(30px) scale(.4)}
+#final.show .word span{animation:letter .8s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(.7s + var(--i)*.14s)}
+@keyframes letter{to{opacity:1;transform:none}}
+#final .late{opacity:0}
+#final.show .late{animation:fadeUp 1.4s var(--ld) both}
 footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 
 /* confetti */
@@ -191,13 +200,13 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     <p class="reveal" style="--d:.2s">Some words are more than just words.</p>
     <p class="reveal" style="--d:1.4s">Some become little pieces of happiness.</p>
     <p class="reveal" style="--d:2.6s">And sometimes, a simple word can bring the biggest smile.</p>
-    <span class="princess gold-text reveal" style="--d:4s">Princess</span>
+    <span class="princess gold-text reveal" style="--d:4s">smile</span>
   </section>
 
   <!-- Screen 3 -->
   <section class="screen s3" id="s3" aria-label="You deserve beautiful things">
     <div class="card">
-      <h2 class="script reveal">Dear Princess,</h2>
+      <h2 class="script reveal">Dear Rutuja,</h2>
       <p class="reveal" style="--d:.5s">You don't need a crown to be special.</p>
       <p class="reveal" style="--d:1s">You don't need a castle to have a fairytale.</p>
       <p class="reveal" style="--d:1.5s">And you certainly don't need someone else's approval to know your worth.</p>
@@ -217,7 +226,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="line reveal" style="--d:1.4s"><strong>You are special.</strong></p>
       <p class="line reveal" style="--d:2.1s"><strong>You are precious.</strong></p>
       <p class="line reveal" style="--d:2.8s"><strong>You deserve all the happiness in this world.</strong></p>
-      <p class="big script reveal" style="--d:3.8s">Happy Princess Day, Rutuja! ❤️</p>
+      <p class="big script reveal" style="--d:3.8s">You are loved, Rutuja! ❤️</p>
     </div>
   </section>
 
@@ -225,8 +234,25 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
   <section class="screen s5" id="s5" aria-label="A final little surprise">
     <button class="btn" id="last" type="button" style="animation:pulse 2.8s ease-in-out infinite">One Last Thing...</button>
     <div id="final" aria-live="polite">
-      <h2 class="script gold-text">Keep smiling, Princess.</h2>
-      <p>The world still has a million beautiful things waiting for you. ✨</p>
+      <svg class="girl" viewBox="0 0 200 270" role="img" aria-label="A happy little girl in a pink gown and golden crown">
+        <ellipse cx="100" cy="125" rx="50" ry="58" fill="#6b4030"/>
+        <path d="M72 132Q38 112 34 80M128 132Q162 112 166 80" stroke="#ffe0cc" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <circle cx="34" cy="78" r="7" fill="#ffe0cc"/><circle cx="166" cy="78" r="7" fill="#ffe0cc"/>
+        <path d="M68 128Q100 112 132 128L168 250Q100 268 32 250Z" fill="#f4b6c9"/>
+        <path d="M44 214Q100 232 156 214M52 238Q100 254 148 238" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/>
+        <rect x="70" y="124" width="60" height="10" rx="5" fill="#d4a94f"/>
+        <circle cx="100" cy="74" r="35" fill="#ffe0cc"/>
+        <path d="M65 72Q68 36 100 38Q132 36 135 72Q118 50 100 54Q82 50 65 72Z" fill="#6b4030"/>
+        <path d="M85 77q5-7 10 0M105 77q5-7 10 0" stroke="#5a4560" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="80" cy="89" r="5.5" fill="#f6a6b8" opacity=".7"/><circle cx="120" cy="89" r="5.5" fill="#f6a6b8" opacity=".7"/>
+        <path d="M90 90Q100 102 110 90Z" fill="#e0607e"/>
+        <use href="#crown" x="70" y="18" width="60" height="50"/>
+        <text x="14" y="40" font-size="20" fill="#d4a94f">✦</text><text x="170" y="50" font-size="16" fill="#e87aa0">✦</text>
+        <text x="150" y="30" font-size="14" fill="#b9a4e6">✧</text>
+      </svg>
+      <h2 class="word script gold-text" id="word" aria-label="Princess"></h2>
+      <p class="late hpd script" style="--ld:2.2s">Happy Princess Day, Rutuja! ❤️</p>
+      <p class="late" style="--ld:3.2s"><strong>Keep smiling, Princess.</strong><br>The world still has a million beautiful things waiting for you. ✨</p>
     </div>
     <footer>Made with care, just for you 🌷</footer>
   </section>
@@ -309,12 +335,31 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     chime(880);
   });
 
+  /* ---- tiny sparkles wherever she taps ---- */
+  document.addEventListener('click',function(e){
+    if(body.classList.contains('opened')&&!e.target.closest('button')) sparkleAt(e.clientX,e.clientY,6);
+  });
+
   /* ---- final confetti ---- */
   var lastBtn=$('#last'), fired=false;
   lastBtn.addEventListener('click',function(){
+    var word=$('#word');
+    if(!word.firstChild){
+      'Princess'.split('').forEach(function(ch,i){
+        var s=document.createElement('span'); s.textContent=ch; s.style.setProperty('--i',i); s.setAttribute('aria-hidden','true'); word.appendChild(s);
+      });
+    }
     $('#final').classList.add('show');
     lastBtn.textContent='Always. 💖';
-    chime(1046);
+    if(!reduce){
+      for(var b=0;b<12;b++){
+        var bl=document.createElement('span');
+        bl.className='fl'; bl.textContent='🎈';
+        bl.style.cssText='left:'+rand(2,92)+'%;font-size:'+rand(30,48)+'px;animation-duration:'+rand(6,10)+'s;animation-delay:'+rand(0,2.5)+'s;animation-iteration-count:1;--o:1;--dx:'+rand(-50,50)+'px;--r:'+rand(-30,30)+'deg';
+        sky.appendChild(bl);
+        setTimeout(function(el){el.remove()},13000,bl);
+      }
+    }
     if(fired||reduce){ return; }
     fired=true;
     var items=['⭐','✨','💖','🌸','💛','✦','💗','🎀'], ccol=['#f4b6c9','#d4a94f','#b9a4e6','#e87aa0','#f3dca0'];
