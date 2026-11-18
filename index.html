@@ -148,6 +148,11 @@ body.opened #dots{opacity:1}
 #final.show .late{animation:fadeUp 1.4s var(--ld) both}
 footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 
+#toast{position:fixed;left:50%;bottom:78px;transform:translate(-50%,20px);z-index:80;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.92);
+  color:var(--ink);box-shadow:0 6px 22px rgba(232,122,160,.35);font-weight:600;font-size:.95rem;opacity:0;pointer-events:none;transition:.5s;max-width:90vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.girl{cursor:pointer}
+.card p:hover{color:var(--lav-d)}
 /* confetti */
 .cf{position:fixed;top:-20px;z-index:70;pointer-events:none;animation:fall var(--t,3.2s) ease-in forwards}
 @keyframes fall{to{transform:translate3d(var(--dx,0),108vh,0) rotate(var(--r,540deg));opacity:.9}}
@@ -194,6 +199,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 <button id="music" type="button" aria-label="Play soft music" aria-pressed="false" title="Music">🔇</button>
 
 <div id="sky" aria-hidden="true"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <div class="bf" style="animation-delay:0s"><svg viewBox="0 0 40 30"><use href="#bfly"/></svg></div>
 <div class="bf" style="animation-delay:-9s;animation-duration:32s;width:26px"><svg viewBox="0 0 40 30"><use href="#bfly"/></svg></div>
 <div class="bf" style="animation-delay:-17s;animation-duration:38s;width:30px"><svg viewBox="0 0 40 30"><use href="#bfly"/></svg></div>
@@ -360,10 +366,46 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     b.addEventListener('click',function(){ $(b.dataset.next).scrollIntoView({behavior:reduce?'auto':'smooth'}); });
   });
 
-  /* ---- tiny sparkles wherever she taps ---- */
+  /* ---- playful touches: tap sparkles, pop floaters, sparkle trail, giggling girl ---- */
+  var caught=0, toast=$('#toast'), toastT;
+  function say(msg){
+    toast.textContent=msg; toast.classList.add('on'); clearTimeout(toastT);
+    toastT=setTimeout(function(){toast.classList.remove('on')},2600);
+  }
+  function float(x,y,txt){
+    var el=document.createElement('span'); el.className='burst'; el.textContent=txt;
+    el.style.cssText='left:'+x+'px;top:'+y+'px;font-size:22px;--bx:0px;--by:-60px';
+    document.body.appendChild(el); setTimeout(function(){el.remove()},1200);
+  }
   document.addEventListener('click',function(e){
-    if(body.classList.contains('opened')&&!e.target.closest('button')) sparkleAt(e.clientX,e.clientY,6);
+    if(!body.classList.contains('opened')) return;
+    var hit=null;
+    sky.querySelectorAll('.fl').forEach(function(f){
+      var r=f.getBoundingClientRect();
+      if(!hit&&r.width&&e.clientX>r.left-14&&e.clientX<r.right+14&&e.clientY>r.top-14&&e.clientY<r.bottom+14) hit=f;
+    });
+    if(hit){
+      var hr=hit.getBoundingClientRect();
+      sparkleAt(hr.left+hr.width/2,hr.top+hr.height/2,8); hit.remove(); caught++;
+      if(caught===5) say('Ooh, you caught 5 little stars ✨');
+      if(caught===15) say('15! You really are a star catcher 💖');
+      if(caught===30) say('Okay okay, you caught them all 😄🌸');
+    }
+    if(e.target.closest('.girl')){
+      var g=e.target.closest('.girl').getBoundingClientRect();
+      float(g.left+g.width/2,g.top+10,['hehe 💖','yay! ✨','🥰','giggles 🌸'][Math.floor(Math.random()*4)]);
+    }
+    if(!e.target.closest('button')&&!hit) sparkleAt(e.clientX,e.clientY,6);
   });
+  var lastTrail=0;
+  document.addEventListener('pointermove',function(e){
+    if(reduce||!body.classList.contains('opened')) return;
+    var now=Date.now(); if(now-lastTrail<70) return; lastTrail=now;
+    var t=document.createElement('span'); t.className='burst';
+    t.textContent=['✦','✧','·'][Math.floor(Math.random()*3)];
+    t.style.cssText='left:'+e.clientX+'px;top:'+e.clientY+'px;font-size:'+rand(10,16)+'px;color:'+cols[Math.floor(Math.random()*cols.length)]+';--bx:'+rand(-18,18)+'px;--by:'+rand(14,34)+'px';
+    document.body.appendChild(t); setTimeout(function(){t.remove()},1200);
+  },{passive:true});
 
   /* ---- final confetti ---- */
   var lastBtn=$('#last'), fired=false;
