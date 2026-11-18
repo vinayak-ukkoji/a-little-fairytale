@@ -93,6 +93,12 @@ body.opened #dots{opacity:1}
 #intro p{font-size:1.15rem;color:var(--ink-s);margin:6px 0 34px;animation:fadeUp 1.4s .8s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
+.soft{margin-bottom:20px;padding:11px 22px;border-radius:999px;font-weight:600;font-size:.95rem;color:var(--ink);background:rgba(255,255,255,.8);
+  border:1.5px solid var(--gold-l);box-shadow:0 4px 16px rgba(212,169,79,.3);animation:fadeUp 1.4s 1s both;transition:transform .2s}
+.soft:hover{transform:scale(1.04)}.soft.on{background:var(--gold-l)}
+.cue{margin-top:30px;font-size:.9rem;color:var(--ink-s)}
+.cue span{display:inline-block;animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(7px)}}
 .btn{position:relative;overflow:hidden;padding:16px 34px;border-radius:999px;font-weight:600;font-size:1.05rem;color:#fff;
   background:linear-gradient(135deg,var(--rose),#f09bb8 50%,var(--gold));
   box-shadow:0 8px 26px rgba(232,122,160,.45);transition:transform .25s,box-shadow .25s;animation:pulse 2.8s ease-in-out infinite,fadeUp 1.4s 1.2s both}
@@ -197,6 +203,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
   <svg class="crown" viewBox="0 0 120 100" role="img" aria-label="A blooming flower"><use href="#flower"/></svg>
   <h1 class="script gold-text">Hey Rutuja... ✨</h1>
   <p>Someone has a little surprise for you.</p>
+  <button class="soft" id="introMusic" type="button" aria-pressed="false">🎧 Tap to turn on soft music first</button>
   <button class="btn" id="open" type="button">Open Your Little Surprise ✨</button>
 </section>
 
@@ -207,6 +214,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     <p class="reveal" style="--d:1.4s">Some become little pieces of happiness.</p>
     <p class="reveal" style="--d:2.6s">And sometimes, a simple word can bring the biggest smile.</p>
     <span class="princess gold-text reveal" style="--d:4s">smile</span>
+    <div class="cue reveal" style="--d:6s" aria-hidden="true"><span>scroll down ↓</span></div>
   </section>
 
   <!-- Screen 3 -->
@@ -219,6 +227,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="reveal em" style="--d:2.2s">You deserve happiness that stays, smiles that come naturally, people who genuinely care, and moments that make your heart feel light.</p>
       <p class="reveal" style="--d:3s">Never let the difficult chapters make you forget how beautiful the story ahead can be. 🌸</p>
     </div>
+    <div class="cue reveal" style="--d:4.5s" aria-hidden="true"><span>keep scrolling ↓</span></div>
   </section>
 
   <!-- Screen 4 -->
@@ -234,6 +243,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       <p class="line reveal" style="--d:2.8s"><strong>You deserve all the happiness in this world.</strong></p>
       <p class="big script reveal" style="--d:3.8s">You are loved, Rutuja! ❤️</p>
     </div>
+    <div class="cue reveal" style="--d:5.5s" aria-hidden="true"><span>one more step ↓</span></div>
   </section>
 
   <!-- Screen 5 -->
@@ -411,17 +421,22 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
   var mbtn=$('#music'), audio=new Audio('sound.mp3'), playing=false;
   audio.loop=true; audio.preload='none'; audio.volume=.6;
   function chime(){}
+  var imbtn=$('#introMusic');
   function setUI(){
+    imbtn.textContent=playing?'🎵 Music on (tap to mute)':'🎧 Tap to turn on soft music first';
+    imbtn.classList.toggle('on',playing); imbtn.setAttribute('aria-pressed',playing);
     mbtn.textContent=playing?'🎵':'🔇';
     mbtn.setAttribute('aria-pressed',playing);
     mbtn.setAttribute('aria-label',playing?'Mute music':'Play soft music');
   }
-  mbtn.addEventListener('click',function(){
+  function toggleMusic(){
     if(playing){ audio.pause(); playing=false; setUI(); return; }
     var p=audio.play();
     playing=true; setUI();
     if(p&&p.catch) p.catch(function(){ playing=false; setUI(); });
-  });
+  }
+  mbtn.addEventListener('click',toggleMusic);
+  imbtn.addEventListener('click',toggleMusic);
   document.addEventListener('visibilitychange',function(){
     if(document.hidden&&playing) audio.pause();
     else if(playing) audio.play().catch(function(){});
