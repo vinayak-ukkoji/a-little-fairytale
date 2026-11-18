@@ -6,7 +6,7 @@
 <title>✨ Open me</title>
 <meta name="description" content="Just for you.">
 <meta name="theme-color" content="#fbe4ec">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23fbe4ec'/%3E%3Cpath d='M12 44 8 22l12 10 12-16 12 16 12-10-4 22z' fill='%23d4a94f' stroke='%23b98a2e' stroke-width='2' stroke-linejoin='round'/%3E%3Crect x='12' y='46' width='40' height='6' rx='2' fill='%23d4a94f'/%3E%3Ccircle cx='32' cy='36' r='3' fill='%23e87aa0'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23fbe4ec'/%3E%3Ccircle cx='45' cy='32' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='38' cy='43' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='26' cy='43' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='19' cy='32' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='25' cy='21' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='38' cy='21' r='10' fill='%23f4b6c9' stroke='%23e87aa0'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%23d4a94f'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
@@ -164,6 +164,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f7e3a4"/><stop offset=".5" stop-color="#d4a94f"/><stop offset="1" stop-color="#b98a2e"/>
     </linearGradient>
+    <symbol id="flower" viewBox="0 0 120 100"><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(0 60 50)" fill="#f4b6c9" stroke="#e87aa0" stroke-width="1.2"/><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(60 60 50)" fill="#f9d3df" stroke="#e87aa0" stroke-width="1.2"/><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(120 60 50)" fill="#f4b6c9" stroke="#e87aa0" stroke-width="1.2"/><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(180 60 50)" fill="#f9d3df" stroke="#e87aa0" stroke-width="1.2"/><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(240 60 50)" fill="#f4b6c9" stroke="#e87aa0" stroke-width="1.2"/><ellipse cx="60" cy="27" rx="12" ry="22" transform="rotate(300 60 50)" fill="#f9d3df" stroke="#e87aa0" stroke-width="1.2"/><circle cx="60" cy="50" r="11" fill="url(#gold)" stroke="#b98a2e" stroke-width="2"/></symbol>
     <symbol id="crown" viewBox="0 0 120 100">
       <path d="M12 82 6 30l26 22 28-38 28 38 26-22-6 52z" fill="url(#gold)" stroke="#b98a2e" stroke-width="2.5" stroke-linejoin="round"/>
       <rect x="12" y="82" width="96" height="12" rx="4" fill="url(#gold)" stroke="#b98a2e" stroke-width="2.5"/>
@@ -193,7 +194,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 
 <!-- Screen 1 -->
 <section id="intro" aria-label="Introduction">
-  <svg class="crown" viewBox="0 0 120 100" role="img" aria-label="A golden crown"><use href="#crown"/></svg>
+  <svg class="crown" viewBox="0 0 120 100" role="img" aria-label="A blooming flower"><use href="#flower"/></svg>
   <h1 class="script gold-text">Hey Rutuja... ✨</h1>
   <p>Someone has a little surprise for you.</p>
   <button class="btn" id="open" type="button">Open Your Little Surprise ✨</button>
@@ -221,11 +222,11 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
   </section>
 
   <!-- Screen 4 -->
-  <section class="screen s4" id="s4" aria-label="Your little crown">
-    <button class="crown big reveal" id="crownBtn" type="button" aria-label="Tap the crown for sparkles">
-      <svg viewBox="0 0 120 100" width="100%" aria-hidden="true"><use href="#crown"/></svg>
+  <section class="screen s4" id="s4" aria-label="A little reminder for you">
+    <button class="crown big reveal" id="crownBtn" type="button" aria-label="Tap the flower for sparkles">
+      <svg viewBox="0 0 120 100" width="100%" aria-hidden="true"><use href="#flower"/></svg>
     </button>
-    <p class="hint reveal" style="--d:.3s">(tap the crown ✨)</p>
+    <p class="hint reveal" style="--d:.3s">(tap the flower ✨)</p>
     <div class="card">
       <p class="line reveal" style="--d:.6s">Just a little reminder from someone who wishes to see you smile...</p>
       <p class="line reveal" style="--d:1.4s"><strong>You are special.</strong></p>
