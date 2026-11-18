@@ -122,6 +122,11 @@ body.opened #dots{opacity:1}
 
 /* screen 5 */
 #last{animation:pulse 2.8s ease-in-out infinite}
+#tease{max-width:520px;transition:opacity .9s}
+#tease.out{opacity:0}
+#tease .tl{font-size:clamp(1.15rem,4.5vw,1.5rem);margin:14px 0;opacity:0}
+#tease.go .tl{animation:fadeUp 1.2s var(--ld) both}
+#tease .drum{color:var(--rose);font-weight:600}
 #final{margin-top:34px;max-width:560px;opacity:0;transform:scale(.92);transition:opacity 1.6s,transform 1.6s}
 #final.show{opacity:1;transform:none}
 #final p{font-size:1.2rem;margin-top:14px}
@@ -233,6 +238,12 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
   <!-- Screen 5 -->
   <section class="screen s5" id="s5" aria-label="A final little surprise">
     <button class="btn" id="last" type="button" style="animation:pulse 2.8s ease-in-out infinite">One Last Thing...</button>
+    <div id="tease" hidden aria-live="polite">
+      <p class="tl" style="--ld:.2s">Okay... confession time 🙈</p>
+      <p class="tl" style="--ld:2.4s">Honestly, I'm not that good at saying this word out loud to you 😅</p>
+      <p class="tl" style="--ld:4.8s">But today is the perfect day to finally say it, so...</p>
+      <p class="tl drum" style="--ld:7.2s">Drumroll, please 🥁✨</p>
+    </div>
     <div id="final" aria-live="polite">
       <svg class="girl" viewBox="0 0 200 270" role="img" aria-label="A happy little girl in a pink gown and golden crown">
         <ellipse cx="100" cy="125" rx="50" ry="58" fill="#6b4030"/>
@@ -342,7 +353,19 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
 
   /* ---- final confetti ---- */
   var lastBtn=$('#last'), fired=false;
+  var teasing=false;
   lastBtn.addEventListener('click',function(){
+    if(teasing||$('#final').classList.contains('show')){ if(!teasing) reveal(); return; }
+    teasing=true;
+    lastBtn.style.display='none';
+    var t=$('#tease'); t.hidden=false; t.classList.add('go');
+    sparkleAt(innerWidth/2,innerHeight/2,10);
+    setTimeout(function(){
+      t.classList.add('out');
+      setTimeout(function(){ t.hidden=true; teasing=false; lastBtn.style.display=''; lastBtn.textContent='Again? 💖'; reveal(); },900);
+    },9800);
+  });
+  function reveal(){
     var word=$('#word');
     if(!word.firstChild){
       'Princess'.split('').forEach(function(ch,i){
@@ -350,7 +373,6 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       });
     }
     $('#final').classList.add('show');
-    lastBtn.textContent='Always. 💖';
     if(!reduce){
       for(var b=0;b<12;b++){
         var bl=document.createElement('span');
@@ -382,7 +404,7 @@ footer{margin-top:60px;font-size:.85rem;color:var(--ink-s)}
       setTimeout(function(el){el.remove()},6000,c);
     }
     setTimeout(function(){fired=false},6500);
-  });
+  }
 
   /* ---- optional music (sound.mp3; starts only when the visitor taps the button) ---- */
   var mbtn=$('#music'), audio=new Audio('sound.mp3'), playing=false;
